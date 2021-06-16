@@ -45,6 +45,22 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Running MySQL from dockerfile
+
+```bash
+# compose docker
+$ docker-compose -f mysql-stack.yml up -d
+
+# docker ps (get all docker process)
+$ docker ps
+
+# find api-foodz-up_db_1
+$ docker inspect < container_id_from_api-foodz-up_db_1 >
+
+# Go at the bottom of the response and get IPv4
+"IPAddress": "< your_mysql_server_ip >",
+```
+
 ## Test
 
 ```bash
