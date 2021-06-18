@@ -1,8 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import Role from './user.roles'
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert } from 'typeorm';
+// import Role from './user.role';
+import bcrypt from 'bcrypt';
+
+enum Role {
+  User = 0,
+  Driver = 1,
+  Restaurateur = 2
+}
 
 @Entity()
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -39,6 +46,7 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @BeforeInsert()  async hashPassword() {
+  this.password = await bcrypt.hash(this.password, 10);  
+}
 }
