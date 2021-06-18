@@ -6,7 +6,9 @@ import { RestaurantModule } from './restaurant/restaurant.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/nest'),
+    MongooseModule.forRoot(
+      'mongodb://foodzup:foodzup@172.25.0.6:27017/foodzup?authSource=admin',
+    ),
     RestaurantModule,
   ],
   controllers: [AppController],

@@ -45,10 +45,10 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Running MySQL from dockerfile
+## Running MySQL and MongoDB from dockerfile
 
 ```bash
-# compose docker
+# compose docker (mysql-stack and mongodb-stack)
 $ docker-compose -f mysql-stack.yml up -d
 
 # docker ps (get all docker process)
