@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RestaurantModule } from './restaurant/restaurant.module';
+import { ArticleModule } from './article/article.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { RestaurantModule } from './restaurant/restaurant.module';
       `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_URI}:${process.env.MONGO_PORT}/${process.env.MONGO_DBNAME}?authSource=admin`,
     ),
     RestaurantModule,
+    ArticleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
