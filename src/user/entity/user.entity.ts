@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert } from 'typeorm';
 // import Role from './user.role';
-import bcrypt from 'bcrypt';
+const bcrypt = require('bcrypt');
 
 enum Role {
   User = 0,
@@ -13,31 +13,31 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   firstName: string;
 
-  @Column()
+  @Column({ nullable: true })
   lastName: string;
 
-  @Column()
+  @Column({ nullable: true, unique: true })
   email: string;
 
-  @Column()
+  @Column({ default: Role.User })
   role: Role;
 
-  @Column()
+  @Column({ nullable: true })
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   refreshToken: string;
 
-  @Column()
+  @Column({ nullable: true })
   countryCode: string;
 
-  @Column()
+  @Column({ nullable: true })
   sponsorCode: string;
 
-  @Column()
+  @Column({ nullable: true })
   profilePicture: string;
 
   @CreateDateColumn()
@@ -47,6 +47,6 @@ export class UserEntity {
   updatedAt: Date;
 
   @BeforeInsert()  async hashPassword() {
-  this.password = await bcrypt.hash(this.password, 10);  
-}
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 }
