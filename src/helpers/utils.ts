@@ -1,6 +1,5 @@
 import { getConnectionOptions, getConnection } from 'typeorm';
-import * as bcrypt from 'bcrypt';
-import { Logger } from '@nestjs/common';
+import * as argon from 'argon2';
 
 export const toPromise = <T>(data: T): Promise<T> => {
   return new Promise<T>(resolve => {
@@ -30,5 +29,5 @@ export const runDbMigrations = async (connectionName: string = 'default') => {
 };
 
 export const comparePasswords = async (userPassword, currentPassword) => {
-  return await bcrypt.compare(currentPassword, userPassword);
+  return await argon.verify(userPassword, currentPassword);
 };

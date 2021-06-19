@@ -1,6 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert } from 'typeorm';
-// import Role from './user.role';
-const bcrypt = require('bcrypt');
+const argon = require('argon2');
 
 enum Role {
   User = 0,
@@ -47,6 +46,6 @@ export class UserEntity {
   updatedAt: Date;
 
   @BeforeInsert()  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 10);
+    this.password = await argon.hash(this.password, 10);
   }
 }
