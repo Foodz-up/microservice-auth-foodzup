@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './user-entity';
+import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
@@ -25,5 +25,9 @@ export class UsersService {
 
     async deleteUser(user: User) {
         this.usersRepository.delete(user);
+    }
+
+    async createUser(user: User){
+        this.usersRepository.save(user);
     }
 }
