@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert } from 'typeorm';
 const argon = require('argon2');
+// import Role from './user.role.js';
 
 enum Role {
   User = 0,
@@ -8,7 +9,7 @@ enum Role {
 }
 
 @Entity()
-export class UserEntity {
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -29,6 +30,9 @@ export class UserEntity {
 
   @Column({ nullable: true })
   refreshToken: string;
+
+  @Column({ nullable: true })
+  refreshTokenExpires: string;
 
   @Column({ nullable: true })
   countryCode: string;

@@ -4,20 +4,10 @@ import { Connection } from 'typeorm'
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { UserEntity } from './user/entity/user.entity';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    type: 'mysql',
-    host: 'localhost',
-    port: 3366,
-    username: 'foodzup',
-    password: 'foodzup',
-    database: 'foodzup',
-    entities: [UserEntity],
-    synchronize: true, // set to false in production
-  }), UserModule, AuthModule],
+  imports: [TypeOrmModule.forRoot(), UserModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -1,4 +1,4 @@
-import Role from '../entity/user.role';
+import Role from '../entities/user.role';
 
 export class UpdateUserDTO {
     id: number;

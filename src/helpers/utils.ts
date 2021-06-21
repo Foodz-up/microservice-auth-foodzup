@@ -19,11 +19,11 @@ export const getDbConnectionOptions = async (
   };
 };
 
-export const getDbConnection = async (connectionName: string = 'default') => {
+export const getDbConnection = async (connectionName: string = 'foodzup') => {
   return await getConnection(connectionName);
 };
 
-export const runDbMigrations = async (connectionName: string = 'default') => {
+export const runDbMigrations = async (connectionName: string = 'foodzup') => {
   const conn = await getDbConnection(connectionName);
   await conn.runMigrations();
 };
