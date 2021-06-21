@@ -14,7 +14,7 @@ import {
 import { MenuService } from './menu.service';
 import { CreateMenuDTO } from './dto/create-menu.dto';
 
-@Controller('menu')
+@Controller('menus')
 export class MenuController {
   constructor(private menuService: MenuService) {}
 

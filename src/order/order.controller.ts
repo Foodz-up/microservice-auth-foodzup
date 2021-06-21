@@ -14,7 +14,7 @@ import {
 import { OrderService } from './order.service';
 import { CreateOrderDTO } from './dto/create-order.dto';
 
-@Controller('order')
+@Controller('orders')
 export class OrderController {
   constructor(private orderService: OrderService) {}
 

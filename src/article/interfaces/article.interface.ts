@@ -9,6 +9,7 @@ export interface IArticle extends Document {
   id: number;
   name: string;
   description: string;
+  // TODO: update to enum
   type: string;
   price: number;
 }

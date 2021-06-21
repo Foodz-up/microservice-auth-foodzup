@@ -9,6 +9,7 @@ export const ArticleSchema = new mongoose.Schema({
   id: Number,
   name: String,
   description: String,
-  type: ArticleType,
+  // TODO: update to enum
+  type: String,
   price: Number,
 });
