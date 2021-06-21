@@ -7,6 +7,9 @@ import { LoginUserDTO } from '../user/dto/user.login.dto';
 import { UserDTO } from '../user/dto/user.dto';
 import { JwtPayload } from './interfaces/payload.interface';
 import { JwtService } from '@nestjs/jwt';
+import { toUserDTO } from 'src/helpers/mapper';
+var randtoken = require('rand-token');
+require('dotenv').config();
 
 
 @Injectable()
@@ -37,13 +40,10 @@ export class AuthService {
     async login(loginUserDTO: LoginUserDTO): Promise<LoginStatus> {
       // find user in db
       const user = await this.userService.findByLogin(loginUserDTO);
-
-      // generate and sign token
-      const token = this._createToken(user);
   
       return {
-        email: user.email,
-        ...token,
+        accessToken: this.createToken(user),
+        refreshToken: await this.generateRefreshToken(user.id)
       };
     }
   
@@ -54,8 +54,16 @@ export class AuthService {
       }
       return user;
     }
+
+    async validateCredentials(email: string, password: string): Promise<UserDTO> {
+      const user = await this.userService.findByLogin({ email, password});
+
+      if (user){
+        return user;
+      }
+    }
   
-    private _createToken({ email }: UserDTO): any {
+    createToken({ email }: UserDTO): any {
       const expiresIn = process.env.EXPIRESIN;
   
       const user: JwtPayload = { email };
@@ -64,5 +72,14 @@ export class AuthService {
         expiresIn,
         accessToken,
       };
+    }
+
+    async generateRefreshToken(userId): Promise<string> {
+      var refreshToken = randtoken.generate(16);
+      var expiryDate = new Date();
+      expiryDate.setDate(expiryDate.getDate() + parseInt(process.env.REFRESHTOKEN_EXPIRES));
+      await this.userService.saveOrUpdateRefreshToken(refreshToken, userId, expiryDate);
+
+      return refreshToken;
     }
   }

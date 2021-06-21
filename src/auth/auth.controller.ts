@@ -7,6 +7,7 @@ import {
     Get,
     Req,
     UseGuards,
+    Request
 } from '@nestjs/common';
 import { CreateUserDTO } from '../user/dto/user.create.dto';
 import { RegistrationStatus } from './interfaces/registration-status.interface';
@@ -15,6 +16,7 @@ import { LoginStatus } from './interfaces/login-status.interface';
 import { LoginUserDTO } from '../user/dto/user.login.dto';
 import { JwtPayload } from './interfaces/payload.interface';
 import { AuthGuard } from '@nestjs/passport';
+import { AuthenticatedGuard } from './guards/authenticated.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -38,6 +40,20 @@ export class AuthController {
     @Post('login')
     public async login(@Body() loginUserDTO: LoginUserDTO): Promise < LoginStatus > {
         return await this.authService.login(loginUserDTO);
+    }
+
+    // @UseGuards(AuthenticatedGuard)
+    @Post('refreshtoken')
+    async refreshToken(@Body() body): Promise < LoginStatus > {
+        const { email } = body;
+        const user = await this.authService.validateUser({email});
+
+        if (user) {
+            return {
+                accessToken: this.authService.createToken(user),
+                refreshToken: Date.parse(user.refreshTokenExpires) < Date.now() ? await this.authService.generateRefreshToken(user.id) : user.refreshToken
+            }
+        }
     }
 
     @Get('test')

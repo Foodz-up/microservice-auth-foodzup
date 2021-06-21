@@ -27,6 +27,7 @@ import {
 import {
   LoginUserDTO
 } from './dto/user.login.dto';
+import { RefreshTokenDTO } from './dto/refreshToken.dto';
 import {
   comparePasswords
 } from '../helpers/utils';
@@ -115,7 +116,7 @@ export class UserService {
     return toUserDTO(user);
   }
 
-  async updateUser(id: number, userDTO: UpdateUserDTO): Promise < UserDTO > {
+  async updateUser(id: number, userDTO: UpdateUserDTO): Promise < UpdateUserDTO > {
     const {
       email
     } = userDTO;
@@ -127,6 +128,10 @@ export class UserService {
 
   async deleteUser(id: number) {
     await this.userRepo.delete(id);
+  }
+
+  async saveOrUpdateRefreshToken(refreshToken: string, id: number, refreshTokenExpires) {
+    await this.userRepo.update(id, {refreshToken, refreshTokenExpires});
   }
 
   private _sanitizeUser(user: User) {

@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { UserDTO } from '../user/dto/user.dto';
-import { JwtPayload } from './interfaces/payload.interface';
-import { AuthService } from './auth.service';
+import { UserDTO } from '../../user/dto/user.dto';
+import { JwtPayload } from '../interfaces/payload.interface';
+import { AuthService } from '../auth.service';
 require('dotenv').config({path: './config/.env'});
 
 @Injectable()
