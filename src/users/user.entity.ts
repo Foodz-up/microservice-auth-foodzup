@@ -8,7 +8,7 @@ export class User {
   @Column({ length: 25 })
   fullName: string;
 
-  @Column('date')
+  @Column({ nullable: true })
   birthday: Date;
 
   @Column()
