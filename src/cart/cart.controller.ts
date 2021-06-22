@@ -11,12 +11,12 @@ import {
   Delete,
   Param,
 } from '@nestjs/common';
-import { CartsService } from './carts.service';
+import { CartService } from './cart.service';
 import { CreateCartDTO } from './dto/create-cart.dto';
 
 @Controller('carts')
-export class CartsController {
-  constructor(private cartService: CartsService) {}
+export class CartController {
+  constructor(private cartService: CartService) {}
 
   // add a cart
   @Post()

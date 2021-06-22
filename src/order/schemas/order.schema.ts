@@ -12,6 +12,6 @@ export const OrderSchema = new mongoose.Schema({
   articles: [],
   restaurant: Object,
   driver: Object,
-  Delivery: Object,
+  delivery: Object,
   state: String,
 });

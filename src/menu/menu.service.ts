@@ -12,12 +12,12 @@ export class MenuService {
   ) {}
   // fetch all menu
   async getAllMenu(): Promise<IMenu[]> {
-    const menu = await this.menuModel.find().exec();
+    const menu = await this.menuModel.find();
     return menu;
   }
   // Get a single customer
   async getMenu(customerID): Promise<IMenu> {
-    const customer = await this.menuModel.findOne({ id: customerID }).exec();
+    const customer = await this.menuModel.findOne({ id: customerID });
     return customer;
   }
   // post a single customer

@@ -5,19 +5,19 @@ import { ICart } from './interfaces/cart.interface';
 import { CreateCartDTO } from './dto/create-cart.dto';
 
 @Injectable()
-export class CartsService {
+export class CartService {
   constructor(
     @InjectModel('Cart')
     private readonly cartModel: Model<ICart>,
   ) {}
   // fetch all cart
   async getAllCart(): Promise<ICart[]> {
-    const cart = await this.cartModel.find().exec();
+    const cart = await this.cartModel.find();
     return cart;
   }
   // Get a single customer
   async getCart(customerID): Promise<ICart> {
-    const customer = await this.cartModel.findOne({ id: customerID }).exec();
+    const customer = await this.cartModel.findOne({ id: customerID });
     return customer;
   }
   // post a single customer

@@ -9,7 +9,7 @@ import { RestaurantModule } from './restaurant/restaurant.module';
 import { ArticleModule } from './article/article.module';
 import { MenuModule } from './menu/menu.module';
 import { OrderModule } from './order/order.module';
-import { CartsModule } from './carts/carts.module';
+import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -23,7 +23,7 @@ import { CartsModule } from './carts/carts.module';
     ArticleModule,
     MenuModule,
     OrderModule,
-    CartsModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [AppService],

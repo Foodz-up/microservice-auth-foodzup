@@ -12,12 +12,12 @@ export class ArticleService {
   ) {}
   // fetch all article
   async getAllArticle(): Promise<IArticle[]> {
-    const article = await this.articleModel.find().exec();
+    const article = await this.articleModel.find();
     return article;
   }
   // Get a single customer
   async getArticle(customerID): Promise<IArticle> {
-    const customer = await this.articleModel.findOne({ id: customerID }).exec();
+    const customer = await this.articleModel.findOne({ id: customerID });
     return customer;
   }
   // post a single customer

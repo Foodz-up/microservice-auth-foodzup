@@ -12,14 +12,12 @@ export class RestaurantService {
   ) {}
   // fetch all restaurant
   async getAllRestaurant(): Promise<IRestaurant[]> {
-    const restaurant = await this.restaurantModel.find().exec();
+    const restaurant = await this.restaurantModel.find();
     return restaurant;
   }
   // Get a single customer
   async getRestaurant(customerID): Promise<IRestaurant> {
-    const customer = await this.restaurantModel
-      .findOne({ id: customerID })
-      .exec();
+    const customer = await this.restaurantModel.findOne({ id: customerID });
     return customer;
   }
   // post a single customer

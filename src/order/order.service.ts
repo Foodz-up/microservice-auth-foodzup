@@ -12,12 +12,12 @@ export class OrderService {
   ) {}
   // fetch all order
   async getAllOrder(): Promise<IOrder[]> {
-    const order = await this.orderModel.find().exec();
+    const order = await this.orderModel.find();
     return order;
   }
   // Get a single customer
   async getOrder(customerID): Promise<IOrder> {
-    const customer = await this.orderModel.findOne({ id: customerID }).exec();
+    const customer = await this.orderModel.findOne({ id: customerID });
     return customer;
   }
   // post a single customer

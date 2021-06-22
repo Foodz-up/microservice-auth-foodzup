@@ -68,7 +68,6 @@ export class RestaurantController {
   // Delete a restaurant
   @Delete('/:id')
   async deleteRestaurant(@Res() res, @Param('id') restaurantID) {
-    console.log(restaurantID);
     const restaurant = await this.restaurantService.deleteRestaurant(
       restaurantID,
     );
