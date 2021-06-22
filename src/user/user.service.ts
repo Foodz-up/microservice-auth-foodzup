@@ -51,7 +51,7 @@ export class UserService {
     return users;
   }
 
-  async getUser(options ? : object): Promise < UserDTO > {
+  async getUser(options ? : object): Promise<UserDTO> {
     const user = await this.userRepo.findOne(options);
     return toUserDTO(user);
   }

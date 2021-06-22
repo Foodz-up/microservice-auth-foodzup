@@ -17,6 +17,8 @@ import { LoginUserDTO } from '../user/dto/user.login.dto';
 import { JwtPayload } from './interfaces/payload.interface';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
+import { RefreshToken } from './interfaces/refresh-token.interface';
+import { JwtAuthGuard } from './guards/jwt.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -42,20 +44,22 @@ export class AuthController {
         return await this.authService.login(loginUserDTO);
     }
 
-    // @UseGuards(AuthenticatedGuard)
+    @UseGuards(JwtAuthGuard, AuthenticatedGuard)
     @Post('refreshtoken')
-    async refreshToken(@Body() body): Promise < LoginStatus > {
-        const { email } = body;
-        const user = await this.authService.validateUser({email});
+    async refreshToken(@Body() body : RefreshToken): Promise < LoginStatus > {
+        const { refreshToken, payload } = body;
+        const user = await this.authService.validateUser(payload);
 
-        if (user) {
+        if (user && refreshToken == user.refreshToken) {
+            const refreshToken = Date.parse(user.refreshTokenExpires) > Date.now() ? user.refreshToken : this.authService.generateRefreshToken(user.id);
             return {
                 accessToken: this.authService.createToken(user),
-                refreshToken: Date.parse(user.refreshTokenExpires) < Date.now() ? await this.authService.generateRefreshToken(user.id) : user.refreshToken
+                refreshToken: refreshToken
             }
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('test')
     @UseGuards(AuthGuard())
     public async testAuth(@Req() req: any): Promise < JwtPayload > {

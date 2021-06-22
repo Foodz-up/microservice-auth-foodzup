@@ -10,16 +10,22 @@ import {
     NotFoundException,
     Delete,
     Param,
+    UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDTO } from './dto/user.create.dto';
 import { UpdateUserDTO } from './dto/user.update.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { AuthenticatedGuard } from 'src/auth/guards/authenticated.guard';
+import { IsAdminGuard } from 'src/auth/guards/isAdmin.guard';
+import { SameUserIdGuard } from 'src/auth/guards/sameUserId.guard';
 
 @Controller('user')
 export class UserController {
     constructor(private userService: UserService) {}
 
     //add a user
+    @UseGuards(JwtAuthGuard, IsAdminGuard)
     @Post()
     async addUser(
         @Res() res,
@@ -32,6 +38,7 @@ export class UserController {
         });
     }
 
+    @UseGuards(JwtAuthGuard, IsAdminGuard)
     // Retrieve users list
     @Get()
     async getAllUser(@Res() res) {
@@ -39,6 +46,7 @@ export class UserController {
         return res.status(HttpStatus.OK).json(users);
     }
 
+    @UseGuards(JwtAuthGuard, SameUserIdGuard)
   // Fetch a particular user using ID
     @Get('/:id')
     async getUser(@Res() res, @Param('id') id) {
@@ -47,6 +55,7 @@ export class UserController {
         return res.status(HttpStatus.OK).json(user);
     }
 
+    @UseGuards(JwtAuthGuard, SameUserIdGuard)
     @Put('/:id')
     async updateUser(
         @Res() res,
@@ -64,6 +73,7 @@ export class UserController {
         });
     }
 
+    @UseGuards(JwtAuthGuard, SameUserIdGuard)
     // Delete a user
     @Delete('/:id')
     async deleteUser(@Res() res, @Param('id') userID) {

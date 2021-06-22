@@ -16,6 +16,5 @@ export const toUserDTO = (data: User): UserDTO => {
       profilePicture,
       refreshTokenExpires,
     };
-  
     return userDto;
   };
