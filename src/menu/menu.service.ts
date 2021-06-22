@@ -17,7 +17,7 @@ export class MenuService {
   }
   // Get a single customer
   async getMenu(customerID): Promise<IMenu> {
-    const customer = await this.menuModel.findById(customerID).exec();
+    const customer = await this.menuModel.findOne({ id: customerID }).exec();
     return customer;
   }
   // post a single customer
@@ -27,7 +27,7 @@ export class MenuService {
   }
   // Edit customer details
   async updateMenu(customerID, createMenuDTO: CreateMenuDTO): Promise<IMenu> {
-    const updatedMenu = await this.menuModel.findByIdAndUpdate(
+    const updatedMenu = await this.menuModel.findOneAndUpdate(
       customerID,
       createMenuDTO,
       { new: true },
@@ -36,7 +36,7 @@ export class MenuService {
   }
   // Delete a customer
   async deleteMenu(customerID): Promise<any> {
-    const deleteMenu = await this.menuModel.findByIdAndRemove(customerID);
+    const deleteMenu = await this.menuModel.findOneAndRemove(customerID);
     return deleteMenu;
   }
 }

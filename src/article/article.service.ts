@@ -17,7 +17,7 @@ export class ArticleService {
   }
   // Get a single customer
   async getArticle(customerID): Promise<IArticle> {
-    const customer = await this.articleModel.findById(customerID).exec();
+    const customer = await this.articleModel.findOne({ id: customerID }).exec();
     return customer;
   }
   // post a single customer
@@ -30,7 +30,7 @@ export class ArticleService {
     customerID,
     createArticleDTO: CreateArticleDTO,
   ): Promise<IArticle> {
-    const updatedArticle = await this.articleModel.findByIdAndUpdate(
+    const updatedArticle = await this.articleModel.findOneAndUpdate(
       customerID,
       createArticleDTO,
       { new: true },
@@ -39,9 +39,7 @@ export class ArticleService {
   }
   // Delete a customer
   async deleteArticle(customerID): Promise<any> {
-    const deletedArticle = await this.articleModel.findByIdAndRemove(
-      customerID,
-    );
+    const deletedArticle = await this.articleModel.findOneAndRemove(customerID);
     return deletedArticle;
   }
 }
