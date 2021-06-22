@@ -1,11 +1,11 @@
-
 {
-  "type": "mysql",
-  "host": "localhost",
-  "port": 3366,
-  "username": "foodzup",
-  "password": "foodzup",
-  "database": "foodzup",
-  "entities": ["dist/**/*.entity{.ts,.js}"],
-  "synchronize": true
+  
+    "type": "mysql",
+    "host": "172.19.0.3",
+    "port": 3306,
+    "username": "foodzup",
+    "password": "foodzup",
+    "database": "foodzup",
+    "entities": ["dist/**/*.entity{.ts,.js}"],
+    "synchronize": true
 }
