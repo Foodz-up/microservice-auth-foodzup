@@ -8,4 +8,5 @@ export class CreateOrderDTO {
   restaurant: Array<any>;
   driver: Array<any>;
   state: OrderState;
+  date: Date;
 }

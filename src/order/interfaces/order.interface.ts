@@ -13,4 +13,5 @@ export interface IOrder extends Document {
   restaurant: Array<any>;
   driver: Array<any>;
   state: string;
+  date: Date;
 }
