@@ -9,4 +9,5 @@ export class CreateOrderDTO {
   driver: Array<any>;
   delivery: Array<any>;
   state: OrderState;
+  date: Date;
 }

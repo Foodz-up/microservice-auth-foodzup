@@ -14,4 +14,5 @@ export const OrderSchema = new mongoose.Schema({
   driver: Object,
   delivery: Object,
   state: String,
+  date: Date,
 });

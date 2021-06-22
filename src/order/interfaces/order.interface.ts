@@ -15,4 +15,5 @@ export interface IOrder extends Document {
   driver: Array<any>;
   delivery: Array<any>;
   state: string;
+  date: Date;
 }
