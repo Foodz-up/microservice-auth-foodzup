@@ -2,7 +2,7 @@ import { getConnectionOptions, getConnection } from 'typeorm';
 import * as argon from 'argon2';
 
 export const toPromise = <T>(data: T): Promise<T> => {
-  return new Promise<T>(resolve => {
+  return new Promise<T>((resolve) => {
     resolve(data);
   });
 };

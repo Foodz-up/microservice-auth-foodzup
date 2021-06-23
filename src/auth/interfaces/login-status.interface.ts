@@ -1,4 +1,4 @@
 export interface LoginStatus {
-    accessToken: any;
-    refreshToken: any;
-  }
+  accessToken: any;
+  refreshToken: any;
+}

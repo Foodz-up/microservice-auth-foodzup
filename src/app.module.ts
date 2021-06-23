@@ -17,7 +17,9 @@ import { OrderModule } from './order/order.module';
     TypeOrmModule.forRoot(),
     UserModule,
     AuthModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     MongooseModule.forRoot(
       `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_URI}:${process.env.MONGO_PORT}/${process.env.MONGO_DBNAME}?authSource=admin`,
     ),
@@ -29,7 +31,6 @@ import { OrderModule } from './order/order.module';
   controllers: [AppController],
   providers: [AppService],
 })
-
 export class AppModule {
   constructor(private connection: Connection) {}
 }

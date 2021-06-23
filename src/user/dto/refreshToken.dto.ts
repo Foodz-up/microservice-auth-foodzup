@@ -1,5 +1,5 @@
 export class RefreshTokenDTO {
-    id: number;
-    refreshToken: string;
-    refreshTokenExpires: string;
+  id: number;
+  refreshToken: string;
+  refreshTokenExpires: string;
 }
