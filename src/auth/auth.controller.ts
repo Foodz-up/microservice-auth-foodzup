@@ -8,6 +8,8 @@ import {
   Req,
   UseGuards,
   Request,
+  NotFoundException,
+  Res,
 } from '@nestjs/common';
 import { CreateUserDTO } from '../user/dto/user.create.dto';
 import { RegistrationStatus } from './interfaces/registration-status.interface';
@@ -19,10 +21,15 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { RefreshToken } from './interfaces/refresh-token.interface';
 import { JwtAuthGuard } from './guards/jwt.guard';
+import { GetUser } from './guards/get-user.decorator';
+import { UserService } from 'src/user/user.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private userService: UserService,
+  ) {}
 
   @Post('register')
   public async register(
@@ -58,6 +65,7 @@ export class AuthController {
       return {
         accessToken: this.authService.createToken(user),
         refreshToken: refreshToken,
+        email: user.email,
       };
     }
   }
@@ -67,5 +75,13 @@ export class AuthController {
   @UseGuards(AuthGuard())
   public async testAuth(@Req() req: any): Promise<JwtPayload> {
     return req.user;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  async getProfile(@GetUser() user, @Request() req, @Res() res) {
+    const getUser = await this.userService.getUser(req.user.id);
+    if (!getUser) throw new NotFoundException('User does not exist!');
+    return res.status(HttpStatus.OK).json({ user });
   }
 }

@@ -9,7 +9,7 @@ export class UserDTO {
   // password: string;
   refreshToken: string;
   refreshTokenExpires: string;
-  countryCode: string;
+  cityCode: number;
   sponsorCode: string;
   profilePicture: string;
   // createdAt: Date;

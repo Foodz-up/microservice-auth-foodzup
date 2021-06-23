@@ -24,6 +24,8 @@ export class UserService {
   }
 
   async getUser(options?: object): Promise<UserDTO> {
+    console.log({ options });
+
     const user = await this.userRepo.findOne(options);
     return toUserDTO(user);
   }
@@ -58,7 +60,7 @@ export class UserService {
   }
 
   async addUser(userDTO: CreateUserDTO): Promise<UserDTO> {
-    const { email, password } = userDTO;
+    const { email } = userDTO;
 
     // check if the user exists in the db
     const userInDb = await this.userRepo.findOne({
@@ -70,13 +72,9 @@ export class UserService {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
 
-    const user: User = await this.userRepo.create({
-      email,
-      password,
-    });
+    const user: User = await this.userRepo.create(userDTO);
 
     await this.userRepo.save(user);
-    console.log(user);
 
     return toUserDTO(user);
   }
