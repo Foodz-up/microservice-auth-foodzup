@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Connection } from 'typeorm'
+import { Connection } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RestaurantModule } from './restaurant/restaurant.module';
@@ -16,7 +15,7 @@ import { OrderModule } from './order/order.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
-    UsersModule,
+    UserModule,
     AuthModule,
     ConfigModule.forRoot(),
     MongooseModule.forRoot(

@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BeforeInsert,
+} from 'typeorm';
 const argon = require('argon2');
 // import Role from './user.role.js';
 
@@ -50,7 +57,7 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @BeforeInsert()  async hashPassword() {
+  @BeforeInsert() async hashPassword() {
     this.password = await argon.hash(this.password, 10);
   }
 }
