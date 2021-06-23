@@ -10,7 +10,10 @@ export interface IOrder extends Document {
   orderNumber: number;
   price: number;
   articles: [];
+  //TODO typage
   restaurant: Array<any>;
   driver: Array<any>;
+  delivery: Array<any>;
   state: string;
+  date: Date;
 }

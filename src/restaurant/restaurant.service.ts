@@ -12,12 +12,12 @@ export class RestaurantService {
   ) {}
   // fetch all restaurant
   async getAllRestaurant(): Promise<IRestaurant[]> {
-    const restaurant = await this.restaurantModel.find().exec();
+    const restaurant = await this.restaurantModel.find();
     return restaurant;
   }
   // Get a single customer
   async getRestaurant(customerID): Promise<IRestaurant> {
-    const customer = await this.restaurantModel.findById(customerID).exec();
+    const customer = await this.restaurantModel.findOne({ id: customerID });
     return customer;
   }
   // post a single customer
@@ -32,8 +32,8 @@ export class RestaurantService {
     customerID,
     createRestaurantDTO: CreateRestaurantDTO,
   ): Promise<IRestaurant> {
-    const updatedRestaurant = await this.restaurantModel.findByIdAndUpdate(
-      customerID,
+    const updatedRestaurant = await this.restaurantModel.findOneAndUpdate(
+      { id: customerID },
       createRestaurantDTO,
       { new: true },
     );
@@ -41,9 +41,9 @@ export class RestaurantService {
   }
   // Delete a customer
   async deleteRestaurant(customerID): Promise<any> {
-    const deletedRestaurant = await this.restaurantModel.findByIdAndRemove(
-      customerID,
-    );
+    const deletedRestaurant = await this.restaurantModel.findOneAndDelete({
+      id: customerID,
+    });
     return deletedRestaurant;
   }
 }

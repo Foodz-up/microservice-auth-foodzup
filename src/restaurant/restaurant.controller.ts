@@ -67,7 +67,7 @@ export class RestaurantController {
 
   // Delete a restaurant
   @Delete('/:id')
-  async deleteRestaurant(@Res() res, @Query('restaurantID') restaurantID) {
+  async deleteRestaurant(@Res() res, @Param('id') restaurantID) {
     const restaurant = await this.restaurantService.deleteRestaurant(
       restaurantID,
     );

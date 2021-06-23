@@ -7,5 +7,7 @@ export class CreateOrderDTO {
   articles: [];
   restaurant: Array<any>;
   driver: Array<any>;
+  delivery: Array<any>;
   state: OrderState;
+  date: Date;
 }

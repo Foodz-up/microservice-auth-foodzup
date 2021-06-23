@@ -12,12 +12,12 @@ export class OrderService {
   ) {}
   // fetch all order
   async getAllOrder(): Promise<IOrder[]> {
-    const order = await this.orderModel.find().exec();
+    const order = await this.orderModel.find();
     return order;
   }
   // Get a single customer
   async getOrder(customerID): Promise<IOrder> {
-    const customer = await this.orderModel.findById(customerID).exec();
+    const customer = await this.orderModel.findOne({ id: customerID });
     return customer;
   }
   // post a single customer
@@ -30,7 +30,7 @@ export class OrderService {
     customerID,
     createOrderDTO: CreateOrderDTO,
   ): Promise<IOrder> {
-    const updatedOrder = await this.orderModel.findByIdAndUpdate(
+    const updatedOrder = await this.orderModel.findOneAndUpdate(
       customerID,
       createOrderDTO,
       { new: true },
@@ -39,7 +39,7 @@ export class OrderService {
   }
   // Delete a customer
   async deleteOrder(customerID): Promise<any> {
-    const deletedOrder = await this.orderModel.findByIdAndRemove(customerID);
+    const deletedOrder = await this.orderModel.findOneAndRemove(customerID);
     return deletedOrder;
   }
 }
