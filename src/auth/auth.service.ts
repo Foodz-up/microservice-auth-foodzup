@@ -24,8 +24,6 @@ export class AuthService {
       message: 'user registered',
     };
 
-    console.log({ userDTO });
-
     try {
       await this.userService.addUser(userDTO);
     } catch (err) {
@@ -41,7 +39,6 @@ export class AuthService {
   async login(loginUserDTO: LoginUserDTO): Promise<LoginStatus> {
     // find user in db
     const user = await this.userService.findByLogin(loginUserDTO);
-    // console.log(user);
 
     return {
       accessToken: this.createToken(user),

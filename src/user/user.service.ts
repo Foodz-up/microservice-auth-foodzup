@@ -24,8 +24,6 @@ export class UserService {
   }
 
   async getUser(options?: object): Promise<UserDTO> {
-    console.log({ options });
-
     const user = await this.userRepo.findOne(options);
     return toUserDTO(user);
   }
