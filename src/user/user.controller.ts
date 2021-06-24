@@ -12,6 +12,7 @@ import {
   Param,
   UseGuards,
   Req,
+  Patch,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDTO } from './dto/user.create.dto';
@@ -20,6 +21,8 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { AuthenticatedGuard } from 'src/auth/guards/authenticated.guard';
 import { IsAdminGuard } from 'src/auth/guards/isAdmin.guard';
 import { SameUserIdGuard } from 'src/auth/guards/sameUserId.guard';
+import { ChangePasswordUserDTO } from './dto/user.changePassword';
+import { GetUser } from 'src/auth/guards/get-user.decorator';
 
 @Controller('users')
 export class UserController {
@@ -46,7 +49,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard, SameUserIdGuard)
   // Fetch a particular user using ID
-  @Get('/:id')
+  @Get('/dev/:id')
   async getUser(@Res() res, @Param('id') id) {
     const user = await this.userService.getUser(id);
     if (!user) throw new NotFoundException('User does not exist!');
@@ -54,7 +57,7 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard, SameUserIdGuard)
-  @Put('/:id')
+  @Put('/dev/:id')
   async updateUser(
     @Res() res,
     @Param('id') id,
@@ -72,26 +75,76 @@ export class UserController {
   @Put()
   async updateUserFromApp(
     @Res() res,
-    @Req() req,
+    @GetUser() user,
     @Body() updateUserDTO: UpdateUserDTO,
   ) {
-    const user = await this.userService.updateUser(req.user.id, updateUserDTO);
-    if (!user) throw new NotFoundException('User does not exist!');
+    const updatedUser = await this.userService.updateUser(
+      user.id,
+      updateUserDTO,
+    );
+    if (!updatedUser)
+      throw new NotFoundException("L'utilisateur n'existe plus");
     return res.status(HttpStatus.OK).json({
-      message: 'User has been successfully updated',
-      user,
+      message: 'Vos informations ont été mis à jours',
+      updatedUser,
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('password')
+  async changePasswordFromApp(
+    @Body() changePasswordUserDTO: ChangePasswordUserDTO,
+    @Res() res,
+    @GetUser() user,
+  ) {
+    const change = await this.userService.changePassword(
+      user.id,
+      changePasswordUserDTO,
+    );
+    if (!change) throw new NotFoundException("L'utilisateur n'existe plus");
+    return res.status(HttpStatus.OK).json({
+      message: 'Votre mot de passe a bien été modifié',
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('sponsor')
+  async changeSponsorCodeFromApp(
+    @Body() body: any,
+    @Res() res,
+    @GetUser() user,
+  ) {
+
+    const change = await this.userService.changeSponsorCode(
+      user.id,
+      body.sponsorCode,
+    );
+    if (!change) throw new NotFoundException("L'utilisateur n'existe plus");
+    return res.status(HttpStatus.OK).json({
+      message: 'Votre code de parrainage est prêt a être partagé',
+      sponsorCode: change.sponsorCode,
     });
   }
 
   @UseGuards(JwtAuthGuard, SameUserIdGuard)
   // Delete a user
-  @Delete('/:id')
+  @Delete('/dev/:id')
   async deleteUser(@Res() res, @Param('id') userID) {
     const user = await this.userService.deleteUser(userID);
 
     return res.status(HttpStatus.OK).json({
       message: 'User has been deleted',
       user,
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  // Delete a user
+  @Delete()
+  async deleteUserFromApp(@Res() res, @GetUser() user) {
+    await this.userService.deleteUser(user.id);
+    return res.status(HttpStatus.OK).json({
+      message: 'Votre compte a bien été supprimé',
     });
   }
 }

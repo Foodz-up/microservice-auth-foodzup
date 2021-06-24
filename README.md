@@ -48,8 +48,8 @@ $ npm run start:prod
 ## Running MySQL and MongoDB from dockerfile
 
 ```bash
-# compose docker (mysql-stack and mongodb-stack)
-$ docker-compose -f mysql-stack.yml up -d
+# compose docker
+$ docker-compose -f stack.yml up -d
 
 # docker ps (get all docker process)
 $ docker ps
@@ -59,6 +59,8 @@ $ docker inspect < container_id_from_api-foodz-up_db_1 >
 
 # Go at the bottom of the response and get IPv4
 "IPAddress": "< your_mysql_server_ip >",
+
+# All address will be static
 ```
 
 ## Test

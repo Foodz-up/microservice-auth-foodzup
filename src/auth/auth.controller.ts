@@ -24,6 +24,7 @@ import { RefreshToken } from './interfaces/refresh-token.interface';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { GetUser } from './guards/get-user.decorator';
 import { UserService } from 'src/user/user.service';
+import { ChangePasswordUserDTO } from 'src/user/dto/user.changePassword';
 
 @Controller('auth')
 export class AuthController {
@@ -48,14 +49,16 @@ export class AuthController {
   }
 
   @Post('login')
-  public async login(@Body() loginUserDTO: LoginUserDTO): Promise<LoginStatus> {
-    return await this.authService.login(loginUserDTO);
+  public async login(
+    @Body() loginUserDTO: LoginUserDTO,
+    @Res() res,
+  ): Promise<LoginStatus> {
+    const token = await this.authService.login(loginUserDTO);
+    return res
+      .status(HttpStatus.OK)
+      .json({ message: 'Vous êtes maintenant connectez', token });
   }
 
-  @Put('changePassword')
-  // public async changePassword(@Body() loginUserDTO: LoginUserDTO): Promise<LoginStatus> {
-  //   return await this.authService.login(loginUserDTO);
-  // }
   @UseGuards(JwtAuthGuard, AuthenticatedGuard)
   @Post('refreshtoken')
   async refreshToken(@Body() body: RefreshToken): Promise<LoginStatus> {

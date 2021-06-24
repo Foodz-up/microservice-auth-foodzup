@@ -27,7 +27,5 @@ export const runDbMigrations = async (connectionName = 'foodzup') => {
 };
 
 export const comparePasswords = async (userPassword, currentPassword) => {
-  console.log({ userPassword, currentPassword });
-
   return await argon.verify(userPassword, currentPassword);
 };

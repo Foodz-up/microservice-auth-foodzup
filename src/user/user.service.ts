@@ -11,7 +11,8 @@ import { RefreshTokenDTO } from './dto/refreshToken.dto';
 import { comparePasswords } from '../helpers/utils';
 import { from } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
-
+import { ChangePasswordUserDTO } from './dto/user.changePassword';
+const argon = require('argon2');
 @Injectable()
 export class UserService {
   constructor(
@@ -36,14 +37,20 @@ export class UserService {
     });
 
     if (!user) {
-      throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        "Vous n'avez pas de compte actif",
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     // compare passwords
     const areEqual = await comparePasswords(user.password, password);
 
     if (!areEqual) {
-      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        'Le mot de passe inscris ne corresponds pas à celui attendu',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
     return toUserDTO(user);
@@ -67,7 +74,10 @@ export class UserService {
       },
     });
     if (userInDb) {
-      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Cette adresse email est déjà utilisée. Vous pouvez vous y connecter en cliquant sur le bouton "J\'ai déjà un compte"',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const user: User = await this.userRepo.create(userDTO);
@@ -78,15 +88,19 @@ export class UserService {
   }
 
   async updateUser(id: number, userDTO: UpdateUserDTO): Promise<UpdateUserDTO> {
-    const { email, password } = userDTO;
+    const { password } = userDTO;
 
     // await this.userRepo.findOneAndUpdate({ password }, userDTO);
-    const user = await this.userRepo.findOne({ id });
+    const user = await this.userRepo.findOne(id);
+
     // compare passwords
     const areEqual = await comparePasswords(user.password, password);
 
     if (!areEqual) {
-      throw new HttpException('Bad password', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        "Votre mot de passe n'est pas valide",
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     delete userDTO.password;
@@ -111,5 +125,51 @@ export class UserService {
   private _sanitizeUser(user: User) {
     delete user.password;
     return user;
+  }
+
+  async changeSponsorCode(id: number, sponsorCode: string) {
+    const user = await this.userRepo.update(id, {
+      sponsorCode,
+    });
+    return { user, sponsorCode };
+  }
+
+  async changePassword(
+    id: number,
+    changePasswordUserDTO: ChangePasswordUserDTO,
+  ): Promise<any> {
+    const { oldPassword, newPassword, confirmPassword } = changePasswordUserDTO;
+    console.log({ oldPassword, newPassword, confirmPassword });
+
+    if (newPassword === '' || oldPassword === newPassword) {
+      throw new HttpException(
+        'Veuillez définir un nouveau mot de passe',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (newPassword !== confirmPassword) {
+      throw new HttpException(
+        'Le mot de passe de confirmation est différent du nouveau mot de passe',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const user = await this.userRepo.findOne({ id });
+    // compare passwords
+    const areEqual = await comparePasswords(user.password, oldPassword);
+
+    if (!areEqual) {
+      throw new HttpException(
+        "Votre ancien mot de passe n'est pas valide",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const newPasswordHashed = await argon.hash(newPassword, 10);
+    const users = await this.userRepo.update(id, {
+      password: newPasswordHashed,
+    });
+    return users;
   }
 }
