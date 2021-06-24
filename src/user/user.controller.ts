@@ -11,6 +11,7 @@ import {
   Delete,
   Param,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDTO } from './dto/user.create.dto';
@@ -60,6 +61,21 @@ export class UserController {
     @Body() updateUserDTO: UpdateUserDTO,
   ) {
     const user = await this.userService.updateUser(id, updateUserDTO);
+    if (!user) throw new NotFoundException('User does not exist!');
+    return res.status(HttpStatus.OK).json({
+      message: 'User has been successfully updated',
+      user,
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put()
+  async updateUserFromApp(
+    @Res() res,
+    @Req() req,
+    @Body() updateUserDTO: UpdateUserDTO,
+  ) {
+    const user = await this.userService.updateUser(req.user.id, updateUserDTO);
     if (!user) throw new NotFoundException('User does not exist!');
     return res.status(HttpStatus.OK).json({
       message: 'User has been successfully updated',

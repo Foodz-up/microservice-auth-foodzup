@@ -78,7 +78,18 @@ export class UserService {
   }
 
   async updateUser(id: number, userDTO: UpdateUserDTO): Promise<UpdateUserDTO> {
-    const { email } = userDTO;
+    const { email, password } = userDTO;
+
+    // await this.userRepo.findOneAndUpdate({ password }, userDTO);
+    const user = await this.userRepo.findOne({ id });
+    // compare passwords
+    const areEqual = await comparePasswords(user.password, password);
+
+    if (!areEqual) {
+      throw new HttpException('Bad password', HttpStatus.BAD_REQUEST);
+    }
+
+    delete userDTO.password;
 
     await this.userRepo.update(id, userDTO);
 

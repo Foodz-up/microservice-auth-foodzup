@@ -10,6 +10,7 @@ import {
   Request,
   NotFoundException,
   Res,
+  Put,
 } from '@nestjs/common';
 import { CreateUserDTO } from '../user/dto/user.create.dto';
 import { RegistrationStatus } from './interfaces/registration-status.interface';
@@ -51,6 +52,10 @@ export class AuthController {
     return await this.authService.login(loginUserDTO);
   }
 
+  @Put('changePassword')
+  // public async changePassword(@Body() loginUserDTO: LoginUserDTO): Promise<LoginStatus> {
+  //   return await this.authService.login(loginUserDTO);
+  // }
   @UseGuards(JwtAuthGuard, AuthenticatedGuard)
   @Post('refreshtoken')
   async refreshToken(@Body() body: RefreshToken): Promise<LoginStatus> {
