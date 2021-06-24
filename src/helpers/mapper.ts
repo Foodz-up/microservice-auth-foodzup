@@ -11,7 +11,7 @@ export const toUserDTO = (data: User): UserDTO => {
     firstName,
     lastName,
     role,
-    countryCode,
+    cityCode,
     profilePicture,
   } = data;
 
@@ -22,7 +22,7 @@ export const toUserDTO = (data: User): UserDTO => {
     firstName,
     lastName,
     role,
-    countryCode,
+    cityCode,
     refreshToken,
     profilePicture,
     refreshTokenExpires,

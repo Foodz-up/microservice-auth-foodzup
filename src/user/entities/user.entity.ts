@@ -43,7 +43,7 @@ export class User {
   refreshTokenExpires: string;
 
   @Column({ nullable: true })
-  countryCode: string;
+  cityCode: number;
 
   @Column({ nullable: true })
   sponsorCode: string;

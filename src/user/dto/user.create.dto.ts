@@ -7,8 +7,8 @@ export class CreateUserDTO {
   email: string;
   role: Role;
   password: string;
+  cityCode: number;
   // refreshToken: string;
-  // countryCode: string;
   // sponsorCode: string;
   // profilePicture: string;
   // createdAt: Date;

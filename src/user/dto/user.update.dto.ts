@@ -8,8 +8,8 @@ export class UpdateUserDTO {
   // role: Role;
   password: string;
   // refreshToken: string;
-  // countryCode: string;
-  // sponsorCode: string;
+  // cityCode: number;
+  sponsorCode: string;
   profilePicture: string;
   // createdAt: Date;
   // updatedAt: Date;

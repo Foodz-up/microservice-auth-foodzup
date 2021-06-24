@@ -43,6 +43,7 @@ export class AuthService {
     return {
       accessToken: this.createToken(user),
       refreshToken: await this.generateRefreshToken(user.id),
+      email: user.email,
     };
   }
 
