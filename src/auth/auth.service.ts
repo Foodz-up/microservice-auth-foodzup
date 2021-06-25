@@ -21,7 +21,8 @@ export class AuthService {
   async register(userDTO: CreateUserDTO): Promise<RegistrationStatus> {
     let status: RegistrationStatus = {
       success: true,
-      message: 'user registered',
+      message:
+        'Votre compte a été créé avec succés. Vous pouvez maintenant vous y connecter',
     };
 
     try {
