@@ -48,7 +48,7 @@ export class UserService {
 
     if (!areEqual) {
       throw new HttpException(
-        'Le mot de passe inscris ne corresponds pas à celui attendu',
+        'Le mot de passe inscrit ne correspond pas à celui attendu',
         HttpStatus.UNAUTHORIZED,
       );
     }

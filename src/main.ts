@@ -8,7 +8,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('FoodzUp')
     .setDescription(
-      "Ce document reprends l'ensemble des route existante dans ce projet",
+      "Ce document reprend l'ensemble des routes existantes dans ce projet",
     )
     .setVersion('1.0')
     .build();

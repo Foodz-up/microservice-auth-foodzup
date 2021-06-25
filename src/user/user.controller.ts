@@ -85,7 +85,7 @@ export class UserController {
     if (!updatedUser)
       throw new NotFoundException("L'utilisateur n'existe plus");
     return res.status(HttpStatus.OK).json({
-      message: 'Vos informations ont été mis à jours',
+      message: 'Vos informations ont été mises à jour',
       updatedUser,
     });
   }

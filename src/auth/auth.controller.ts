@@ -56,7 +56,7 @@ export class AuthController {
     const token = await this.authService.login(loginUserDTO);
     return res
       .status(HttpStatus.OK)
-      .json({ message: 'Vous êtes maintenant connectez', token });
+      .json({ message: 'Vous êtes maintenant connecté', token });
   }
 
   @UseGuards(JwtAuthGuard, AuthenticatedGuard)
