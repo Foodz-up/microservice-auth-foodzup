@@ -31,6 +31,9 @@ export class User {
   @Column({ nullable: true, unique: true })
   email: string;
 
+  @Column({ nullable: true })
+  address: string;
+
   @Column({ default: Role.User })
   role: Role;
 
@@ -50,7 +53,7 @@ export class User {
   sponsorCode: string;
 
   @Column({ nullable: true })
-  profilePicture: string;
+  picture: string;
 
   @CreateDateColumn()
   createdAt: Date;

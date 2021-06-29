@@ -12,19 +12,21 @@ export const toUserDTO = (data: User): UserDTO => {
     lastName,
     role,
     cityCode,
-    profilePicture,
+    picture,
+    address,
   } = data;
 
   const userDto: UserDTO = {
     id,
     email,
+    address,
     sponsorCode,
     firstName,
     lastName,
     role,
     cityCode,
     refreshToken,
-    profilePicture,
+    picture,
     refreshTokenExpires,
   };
   return userDto;

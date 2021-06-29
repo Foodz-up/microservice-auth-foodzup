@@ -10,7 +10,8 @@ export class UpdateUserDTO {
   // refreshToken: string;
   cityCode: number;
   sponsorCode: string;
-  profilePicture: string;
+  picture: string;
+  address: string;
   // createdAt: Date;
   // updatedAt: Date;
 }

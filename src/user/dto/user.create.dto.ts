@@ -8,9 +8,10 @@ export class CreateUserDTO {
   role: Role;
   password: string;
   cityCode: number;
+  address: string;
   // refreshToken: string;
   // sponsorCode: string;
-  // profilePicture: string;
+  // picture: string;
   // createdAt: Date;
   // updatedAt: Date;
 }
