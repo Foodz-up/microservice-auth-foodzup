@@ -1,23 +1,15 @@
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { Transport } from '@nestjs/microservices'
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
-  const config = new DocumentBuilder()
-    .setTitle('FoodzUp')
-    .setDescription(
-      "Ce document reprend l'ensemble des routes existantes dans ce projet",
-    )
-    .setVersion('1.0')
-    .build();
-
-  app.enableCors();
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
-
-  await app.listen(8000);
+  const app = await NestFactory.createMicroservice(AppModule, {
+    transport: Transport.TCP,
+    options: {
+      host: '127.0.0.1',
+      port: 8877,
+    },
+  });
+  app.listen(() => console.log('Microservice is listening'));
 }
 bootstrap();

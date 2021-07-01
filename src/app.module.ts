@@ -7,11 +7,6 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { RestaurantModule } from './restaurant/restaurant.module';
-import { ArticleModule } from './article/article.module';
-import { MenuModule } from './menu/menu.module';
-import { OrderModule } from './order/order.module';
-import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -33,11 +28,6 @@ import { CartModule } from './cart/cart.module';
     MongooseModule.forRoot(
       `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_URI}:${process.env.MONGO_PORT}/${process.env.MONGO_DBNAME}?authSource=admin`,
     ),
-    RestaurantModule,
-    ArticleModule,
-    MenuModule,
-    OrderModule,
-    CartModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,0 +1,50 @@
+version: '3.7'
+services:
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: foodzup
+      MYSQL_USER: foodzup
+      MYSQL_PASSWORD: foodzup
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - foodzup:/var/lib/mysql
+    ports:
+      - 3366:3306
+    networks:
+      service1_net:
+        ipv4_address: 172.22.0.10  
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: foodzup
+      MONGO_INITDB_ROOT_PASSWORD: foodzup
+    volumes:
+      - foodzup2:/var/lib/mongodb
+    networks:
+      service1_net:
+        ipv4_address: 172.22.0.101
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: foodzup
+      ME_CONFIG_MONGODB_ADMINPASSWORD: foodzup
+
+volumes:
+  foodzup:
+  foodzup2:
+
+networks:
+  service1_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.0.0/16
